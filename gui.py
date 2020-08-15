@@ -1,7 +1,8 @@
-import tkMessageBox
+from tkinter import messagebox
 from tkinter import *
 from PIL import ImageTk, Image
 import os
+import face_detection
 
 root = Tk()
 root.geometry("700x600")
@@ -12,9 +13,9 @@ logo_img = Label(root, image = logo,background="#ffffff")
 #Function goes here
 
 def take_attendence():
-    tkMessageBox.showinfo("Take Attendence", "This function is not available now")
+    messagebox.showinfo("Take Attendence", "This function is not available now")
 def check_attendence():
-    tkMessageBox.showinfo("Take Attendence", "This function is not available now")
+    messagebox.showinfo("Take Attendence", "This function is not available now")
 def register_user():
     ##NEW SEPERATE WINDOW FOR NEW USER REGISTRATION
     register=Tk()
@@ -31,7 +32,8 @@ def register_user():
                              height="2",
                              background="#000000",
                              foreground="#ffffff",
-                             activeforeground="#ff0000"
+                             activeforeground="#ff0000",
+                             command=face_detection.capture
                              )
     complete_registration = Button(register,
                        text="Register",
