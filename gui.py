@@ -7,105 +7,119 @@ from functools import partial
 import numpy as np
 import cv2
 
-root = Tk()
-root.geometry("700x600")
-root.config(background="#ffffff")
-logo = ImageTk.PhotoImage(Image.open("Resources/logo_icon.png"))
-logo_img = Label(root, image = logo,background="#ffffff")
+class Start:
+    def __init__(self, master):
+        self.master = master
+        self.frame = Frame(self.master)
+        self.master.geometry("700x600")
 
-#Function goes here
-
-def take_attendence():
-    messagebox.showinfo("Take Attendence", "This function is not available now")
-def check_attendence():
-    messagebox.showinfo("Take Attendence", "This function is not available now")
-def register_user():
-    ##NEW SEPERATE WINDOW FOR NEW USER REGISTRATION
-    register=Tk()
-    register.title("Register New User")
-    register.geometry("500x400")
-    register.config(background="#ffffff")
-    id_label=Label(register,text="User ID", font=("Arial sans MS",14,"bold"),background="#ffffff")
-    id_input=Entry(register,bd=2,width="30",font=("Arial sans MS",14))
-    name_label=Label(register,text="User Name",font=("Arial sans MS",14,"bold"),background="#ffffff")
-    name_input=Entry(register,bd=2,width="30",font=("Arial sans MS",14))
-    take_face = Button(register,
-                             text="Take Face",
+        self.logo = ImageTk.PhotoImage(Image.open("Resources/logo_icon.png"))
+        self.logo_img = Label(self.frame, image = self.logo)
+        self.heading=Label(self.frame, text="Attendence Management System", font=("Comic sans MS",24,"bold"))
+        self.take_attendence=Button(self.frame,
+                               text="Take Attendence",
+                               width="30",
+                               height="2",
+                               background="#000000",
+                               foreground="#ffffff",
+                               activeforeground="#ff0000",
+                               command=self.take_attendence
+                               )
+        self.check_attendence=Button(self.frame,
+                                text="Check Attendence",
+                                width="30",
+                                height="2",
+                                background="#000000",
+                                foreground="#ffffff",
+                                activeforeground="#ff0000",
+                                command=self.check_attendence
+                                )
+        self.register_user=Button(self.frame,
+                             text="Register New User",
                              width="30",
                              height="2",
                              background="#000000",
                              foreground="#ffffff",
                              activeforeground="#ff0000",
-                             command=lambda: face_detection.capture(str(id_input.get()))
+                             command=self.new_window
                              )
-    complete_registration = Button(register,
-                       text="Register",
-                       width="30",
-                       height="2",
-                       background="#000000",
-                       foreground="#ffffff",
-                       activeforeground="#ff0000"
-                       )
-    notif1 = Label(register,text="",font=("Arial sans MS",14,"bold"),background="#ffffff")
-    id_label.pack(pady=(30,0))
-    id_input.pack()
-    name_label.pack(pady=(30,0))
-    name_input.pack()
-    take_face.pack(pady="30")
-    complete_registration.pack()
-    notif1.pack(pady=(30,0))
-    register.mainloop()
-def exit_app():
-    root.destroy()
-
-##COMPONENTS HERE
-
-heading=Label(
-    root,
-    text="Attendence Management System",
-    font=("Comic sans MS",24,"bold"),
-    background="#ffffff"
-)
-take_attendence=Button(root,
-                       text="Take Attendence",
-                       width="30",
-                       height="2",
-                       background="#000000",
-                       foreground="#ffffff",
-                       activeforeground="#ff0000",
-                       command=take_attendence)
-check_attendence=Button(root,
-                        text="Check Attendence",
+        self.exit_btn=Button(self.frame,
+                        text="Exit",
                         width="30",
                         height="2",
                         background="#000000",
                         foreground="#ffffff",
                         activeforeground="#ff0000",
-                        command=check_attendence
+                        command=self.exit_app
                         )
-register_user=Button(root,
-                     text="Register New User",
-                     width="30",
-                     height="2",
-                     background="#000000",
-                     foreground="#ffffff",
-                     activeforeground="#ff0000",
-                     command=register_user
-                     )
-exit_btn=Button(root,
-                text="Exit",
-                width="30",
-                height="2",
-                background="#000000",
-                foreground="#ffffff",
-                activeforeground="#ff0000",
-                command=exit_app
-                )
 
-logo_img.pack(pady="30")
-heading.pack(pady=(0,30))
-take_attendence.pack(pady=(0,30))
-check_attendence.pack(pady=(0,30))
-register_user.pack(pady=(0,30))
-exit_btn.pack(pady=(0,30))
-root.mainloop()
+        self.logo_img.pack(pady="30")
+        self.heading.pack(pady=(0,30))
+        self.take_attendence.pack(pady=(0,30))
+        self.check_attendence.pack(pady=(0,30))
+        self.register_user.pack(pady=(0,30))
+        self.exit_btn.pack(pady=(0,30))
+        self.frame.pack()
+
+    def new_window(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = register_user(self.newWindow)
+
+    def take_attendence(self):
+        messagebox.showinfo("Take Attendence", "This function is not available now")
+    def check_attendence(self):
+        messagebox.showinfo("Take Attendence", "This function is not available now")
+
+    def exit_app(self):
+        self.master.destroy()
+
+class register_user:
+    def __init__(self, master):
+        self.master = master
+        self.frame = Frame(self.master)
+        self.master.title("Register New User")
+        self.master.geometry("500x400")
+        self.id_label=Label(self.frame,text="User ID", font=("Arial sans MS",14,"bold"))
+        self.id_input=Entry(self.frame,bd=2,width="30",font=("Arial sans MS",14))
+
+        self.name_label=Label(self.frame,text="User Name",font=("Arial sans MS",14,"bold"))
+        self.name_input=Entry(self.frame,bd=2,width="30",font=("Arial sans MS",14))
+        self.take_face = Button(self.frame,
+                                 text="Take Face",
+                                 width="30",
+                                 height="2",
+                                 background="#000000",
+                                 foreground="#ffffff",
+                                 activeforeground="#ff0000",
+                                 command=lambda: face_detection.capture(str(self.id_input.get()))
+                                 )
+        self.complete_registration = Button(self.frame,
+                           text="Register",
+                           width="30",
+                           height="2",
+                           background="#000000",
+                           foreground="#ffffff",
+                           activeforeground="#ff0000",
+
+                           )
+        self.notif1 = Label(self.frame,text="",font=("Arial sans MS",14,"bold"))
+
+        self.id_label.pack(pady=(30,0))
+        self.id_input.pack()
+        self.name_label.pack(pady=(30,0))
+        self.name_input.pack()
+        self.take_face.pack(pady="30")
+        self.complete_registration.pack()
+        self.notif1.pack(pady=(30,0))
+        self.frame.pack()
+
+    def close_windows(self):
+        self.master.destroy()
+
+def main():
+    root = Tk()
+    app = Start(root)
+    root.mainloop()
+
+if __name__ == '__main__':
+    main()
