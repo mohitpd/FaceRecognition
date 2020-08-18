@@ -13,10 +13,10 @@ def getImagesData(path):
     ids = []
 
     for imagePath in imagesPath:
-        pilImage = Image.open(imagepath).convert('L')
+        pilImage = Image.open(imagePath).convert('L')
         imgnp = np.array(pilImage, 'uint8')
 
-        Id = int(os.path.split(imagePath)[-1].split("_")[0])
+        Id = int(os.path.split(imagePath)[-1].split("_")[1])
 
         faces.append(imgnp)
         ids.append(Id)

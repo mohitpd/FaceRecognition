@@ -3,6 +3,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 import os
 import face_detection
+import training
 from functools import partial
 import numpy as np
 import cv2
@@ -91,7 +92,7 @@ class register_user:
                                  background="#000000",
                                  foreground="#ffffff",
                                  activeforeground="#ff0000",
-                                 command=lambda: face_detection.capture(str(self.id_input.get()))
+                                 command=lambda: self.face_capture(self.id_input.get(), self.name_input.get())
                                  )
         self.complete_registration = Button(self.frame,
                            text="Register",
@@ -100,9 +101,9 @@ class register_user:
                            background="#000000",
                            foreground="#ffffff",
                            activeforeground="#ff0000",
-
+                           command=self.train_images
                            )
-        self.notif1 = Label(self.frame,text="",font=("Arial sans MS",14,"bold"))
+        self.notif1 = Label(self.frame,text="",font=("Arial sans MS",14,"bold"),fg="red")
 
         self.id_label.pack(pady=(30,0))
         self.id_input.pack()
@@ -115,6 +116,43 @@ class register_user:
 
     def close_windows(self):
         self.master.destroy()
+
+    def is_number(self,s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            pass
+
+        try:
+            import unicodedata
+            unicodedata.numeric(s)
+            return True
+        except (TypeError, ValueError):
+            pass
+
+        return False
+
+    def face_capture(self, id, name):
+        self.id = id
+        self.name = name
+        if (self.is_number(self.id) and self.name.isalpha()):
+            face_detection.capture(self.id, self.name)
+            msg = "Images Recorded for ID: "+self.id+" Name: "+self.name
+            self.notif1.configure(text=msg)
+        else:
+            if self.is_number(self.id):
+                msg = "Notification: Invalid Name"
+                self.notif1.configure(text=msg)
+            if self.name.isalpha():
+                msg = "Notification: ID should be number"
+                self.notif1.configure(text=msg)
+
+    def train_images(self):
+        training.Training()
+        self.master.destroy()
+
+
 
 def main():
     root = Tk()
