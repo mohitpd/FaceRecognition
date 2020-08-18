@@ -21,12 +21,8 @@ def capture(id, name):
 		if faces is not None:
 			for (x,y,w,h) in faces:
 				print(x, y, w, h)
-				color = (255, 0, 0)
-				stroke = 2
-				x2 = x + w
-				y2 = y + h
-				cv2.rectangle(frame, (x, y), (x2, y2), color, stroke)
-				face_crop = gray[y:y2, x:x2]
+				cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
+				face_crop = gray[y:y+h, x:x+w]
 				cv2.imwrite("face_data/"+str(name)+'_'+str(id)+"_"+str(count)+".jpg",face_crop)
 				count+=1
 				cv2.imshow('frame', frame)

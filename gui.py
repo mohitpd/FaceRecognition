@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 import os
 import face_detection
 import training
+import check
 from functools import partial
 import numpy as np
 import cv2
@@ -14,7 +15,7 @@ class Start:
         self.frame = Frame(self.master)
         self.master.geometry("700x600")
 
-        self.logo = ImageTk.PhotoImage(Image.open("Resources/logo_icon.png"))
+        self.logo = ImageTk.PhotoImage(Image.open("Resources/logo_image.png"))
         self.logo_img = Label(self.frame, image = self.logo)
         self.heading=Label(self.frame, text="Attendence Management System", font=("Comic sans MS",24,"bold"))
         self.take_attendence=Button(self.frame,
@@ -53,13 +54,14 @@ class Start:
                         activeforeground="#ff0000",
                         command=self.exit_app
                         )
-
+        self.notif1 = Label(self.frame,text="",font=("Arial sans MS",14,"bold"),fg="red")
         self.logo_img.pack(pady="30")
         self.heading.pack(pady=(0,30))
         self.take_attendence.pack(pady=(0,30))
         self.check_attendence.pack(pady=(0,30))
         self.register_user.pack(pady=(0,30))
         self.exit_btn.pack(pady=(0,30))
+        self.notif1.pack(pady=(30,0))
         self.frame.pack()
 
     def new_window(self):
@@ -67,7 +69,9 @@ class Start:
         self.app = register_user(self.newWindow)
 
     def take_attendence(self):
-        messagebox.showinfo("Take Attendence", "This function is not available now")
+        attendance = check.CheckImage()
+        msg = attendance
+        self.notif1.configure(text=msg)
     def check_attendence(self):
         messagebox.showinfo("Take Attendence", "This function is not available now")
 
