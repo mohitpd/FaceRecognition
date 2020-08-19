@@ -27,15 +27,6 @@ class Start:
                                activeforeground="#ff0000",
                                command=self.take_attendence
                                )
-        self.check_attendence=Button(self.frame,
-                                text="Check Attendence",
-                                width="30",
-                                height="2",
-                                background="#000000",
-                                foreground="#ffffff",
-                                activeforeground="#ff0000",
-                                command=self.check_attendence
-                                )
         self.register_user=Button(self.frame,
                              text="Register New User",
                              width="30",
@@ -58,7 +49,6 @@ class Start:
         self.logo_img.pack(pady="30")
         self.heading.pack(pady=(0,30))
         self.take_attendence.pack(pady=(0,30))
-        self.check_attendence.pack(pady=(0,30))
         self.register_user.pack(pady=(0,30))
         self.exit_btn.pack(pady=(0,30))
         self.notif1.pack(pady=(30,0))
@@ -72,8 +62,6 @@ class Start:
         attendance = check.CheckImage()
         msg = attendance
         self.notif1.configure(text=msg)
-    def check_attendence(self):
-        messagebox.showinfo("Take Attendence", "This function is not available now")
 
     def exit_app(self):
         self.master.destroy()
@@ -142,7 +130,7 @@ class register_user:
         self.name = name
         if (self.is_number(self.id) and self.name.isalpha()):
             face_detection.capture(self.id, self.name)
-            msg = "Images Recorded for ID: "+self.id+" Name: "+self.name
+            msg = "Images Recorded for ID: "+self.id+", Name: "+self.name
             self.notif1.configure(text=msg)
         else:
             if self.is_number(self.id):
